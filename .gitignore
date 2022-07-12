@@ -1,0 +1,16 @@
+.vscode
+.DS_Store
+/tmp
+/temp
+/logs/*
+/dist
+
+# tmp file
+Test*
+
+# dev file
+dist.*
+
+# Editor directories and files
+.idea
+.vscode
