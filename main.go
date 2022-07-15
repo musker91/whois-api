@@ -1,7 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"whois-api/configer"
+	"whois-api/router"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	fmt.Println("Whois Api Start")
+	// inital configuer
+	configer.InitialConfier()
+
+	// initial web server
+	router.InitialRouter()
+	if configer.Configer.AppMode != "production" {
+		gin.SetMode(gin.DebugMode)
+	}
+
+	router.Router.Run("0.0.0.0:8091")
 }

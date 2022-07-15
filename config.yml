@@ -1,0 +1,12 @@
+# production, development
+appmode: development
+
+serve:
+  port: 8091
+  # debug, info, error, warn, panic, fatal
+  loglevel: debug
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: 
