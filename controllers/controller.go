@@ -9,3 +9,5 @@ import (
 func SiteHome(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
+
+
