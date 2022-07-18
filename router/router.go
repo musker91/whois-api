@@ -26,4 +26,10 @@ func InitialRouter() {
 	{
 		Router.GET("/", controllers.SiteHome)
 	}
+
+	// api
+	{
+		Router.GET("/api", controllers.WhoisQuery)
+		Router.POST("/api", controllers.WhoisQuery)
+	}
 }

@@ -16,6 +16,6 @@ func TestWhois(t *testing.T) {
 	if err != nil {
 		t.Error("err", err)
 	}
-	// t.Logf("Text Result: %v\n", whoisInfo.TextInfo)
+	t.Logf("Text Result: %v\n", whoisInfo.TextInfo)
 	t.Logf("JSON Result: %#v\n", whoisInfo.JsonInfo)
 }
