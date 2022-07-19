@@ -1,10 +1,18 @@
-# production, development
-appmode: development
+# app mode: production, development
+appmode: production
 
 serve:
   port: 8091
-  # debug, info, error, warn, panic, fatal
+  # log level: debug, info, error, warn, panic, fatal
   loglevel: debug
+  # log type: json, text
+  logtype: json
+  # log out path: file, console
+  logoutpath: console
+  # log save days: split log file save days
+  logsavedays: 7
+  # log split time, unit: hour
+  logsplittime: 24
 
 redis:
   host: 127.0.0.1

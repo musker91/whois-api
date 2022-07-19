@@ -21,6 +21,7 @@ func InitialRouter() {
 	// set middlewares
 	Router.Use(gin.Recovery())
 	Router.Use(middlewares.AllowCors())
+	Router.Use(middlewares.Logger())
 
 	// page
 	{

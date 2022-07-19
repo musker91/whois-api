@@ -1,9 +1,13 @@
 package middlewares
 
 import (
+	"fmt"
 	"net/http"
+	"time"
+	"whois-api/libs/logger"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func AllowCors() gin.HandlerFunc {
@@ -25,5 +29,21 @@ func AllowCors() gin.HandlerFunc {
 			c.JSON(http.StatusOK, "Options Request!")
 		}
 		c.Next()
+	}
+}
+
+func Logger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		start := time.Now()
+		c.Next()
+		useTime := time.Since(start)
+		logger.Echo.WithFields(logrus.Fields{
+			"statusCode":  c.Writer.Status(),
+			"useTime":     fmt.Sprintf("%v", useTime),
+			"clientIp":    c.ClientIP(),
+			"method":      c.Request.Method,
+			"urlPath":     c.Request.URL.Path,
+			"queryParams": c.Request.URL.RawQuery,
+		}).Info()
 	}
 }

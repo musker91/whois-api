@@ -4,7 +4,7 @@ import "testing"
 
 func TestWhois(t *testing.T) {
 	form := &WhoisRequestForm{
-		Domain:  "http://www.baidu.io",
+		Domain:  "http://www.baidu.com",
 		OutType: "json",
 	}
 

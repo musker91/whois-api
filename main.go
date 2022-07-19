@@ -2,14 +2,16 @@ package main
 
 import (
 	"whois-api/configer"
+	"whois-api/libs/logger"
 	"whois-api/router"
 
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func webServer() {
 	// inital configuer
 	configer.InitialConfier()
+	logger.InitialLogger()
 
 	// initial web server
 	router.InitialRouter()
@@ -18,4 +20,8 @@ func main() {
 	}
 
 	router.Router.Run("0.0.0.0:8091")
+}
+
+func main() {
+	webServer()
 }

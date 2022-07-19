@@ -2,9 +2,11 @@ package controllers
 
 import (
 	"net/http"
+	"whois-api/libs/logger"
 	"whois-api/models"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -21,10 +23,15 @@ func WhoisQuery(c *gin.Context) {
 	err := c.Bind(&requestForm)
 	data := gin.H{
 		"data":  gin.H{},
-		"state": models.WhoisStateRequestParamsError,
+		"state": models.WhoisStateQueryFail,
 	}
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"code": ApiRequestFail, "data": data, "msg": "request params error"})
+		c.JSON(http.StatusOK, gin.H{"code": ApiRequestFail, "data": data, "msg": "request params error"})
+		logger.Echo.WithFields(logrus.Fields{
+			"routers": c.Request.URL.Path,
+			"err":     err,
+			"query":   requestForm,
+		}).Error("get whois request form params fail")
 		return
 	}
 	whoisInfo := &models.WhoisInfo{
@@ -32,7 +39,12 @@ func WhoisQuery(c *gin.Context) {
 	}
 	err = whoisInfo.Whois()
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"code": ApiRequestFail, "data": data, "msg": "query fail"})
+		c.JSON(http.StatusOK, gin.H{"code": ApiRequestFail, "data": data, "msg": "query fail"})
+		logger.Echo.WithFields(logrus.Fields{
+			"routers": c.Request.URL.Path,
+			"err":     err,
+			"query":   requestForm,
+		}).Error("query whois info fail")
 		return
 	}
 	data["state"] = whoisInfo.State
