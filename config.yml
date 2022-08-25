@@ -4,12 +4,12 @@ appmode: production
 serve:
   port: 8091
   # log level: debug, info, error, warn, panic, fatal
-  loglevel: debug
+  loglevel: info
   # log type: json, text
   logtype: json
   # log out path: file, console
   logoutpath: console
   # log save days: split log file save days
-  logsavedays: 7
+  logsavedays: 3
   # log split time, unit: hour
-  logsplittime: 24
+  logsplittime: 12
