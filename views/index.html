@@ -1,12 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whois Api</title>
-</head>
-<body>
-    Whois Api
-</body>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>域名Whois查询服务</title>
+    <meta http-equiv="keywords" content="whois,whois查询,whois api" />
+    <meta name="description" content="域名Whois查询服务" />
+    <style>
+      body {
+        font-size: 12px;
+      }
+
+      .container {
+        position: absolute;
+        /* 水平居中 */
+        left: 50%;
+        width: 30%;
+        margin-left: -15%;
+        /* 垂直居中 */
+        top: 50%;
+        height: 30%;
+        margin-top: -15%;
+      }
+
+      li {
+        list-style-type: none;
+      }
+
+      .inputText {
+        border-radius: 2%;
+        border: 5px;
+        border-color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Whois 查询</h1>
+      <form action="##" method="GET" onsubmit="return false">
+        <input name="domain" size="24" placeholder="domain name" />
+        <input type="submit" id="submit" value="query" />
+      </form>
+
+      <pre id="info_block"></pre>
+    </div>
+
+    <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+      function data_option(data) {
+        if (data.data.state == '0') {
+          // 域名获取成功
+          $('#selectStatus').html('域名whois信息获取成功')
+          $('#info_block').append("<hr style='border:1 dashed #987cb9' size=1>")
+          $('#info_block').append(data.data.data)
+          $('#info_block').append("<hr style='border:1 dashed #987cb9' size=1>")
+        } else if (data.data.state == '2') {
+          // 域名不存在
+          $('#selectStatus').html('查询域名不存在')
+          $('#info_block').html(
+            "<h3 style='color: red;'>" + '查询域名不存在' + '</h3>'
+          )
+        } else if (data.data.state == '3') {
+          // 暂不支持此域名查询
+          $('#selectStatus').html('暂不支持此域名后缀查询')
+          $('#info_block').html(
+            "<h3 style='color: red;'>" + '暂不支持此域名后缀查询' + '</h3>'
+          )
+        } else if (data.data.state == '5') {
+          // 域名输入有误
+          $('#selectStatus').html('域名输入有误')
+          $('#info_block').html(
+            "<h3 style='color: red;'>" + '域名输入有误' + '</h3>'
+          )
+        } else if (data.data.state == '1' || data.data.state == '4') {
+          // 域名查询失败
+          $('#selectStatus').html('域名查询失败')
+          $('#info_block').html(
+            "<h3 style='color: red;'>" + '域名查询失败' + '</h3>'
+          )
+        } else {
+          $('#selectStatus').html('请求发送失败，请稍后重试')
+          $('#info_block').html(
+            "<h3 style='color: red;'>" + '请求发送失败，请稍后重试' + '</h3>'
+          )
+        }
+      }
+      $('#submit').click(function () {
+        $('#info_block').html('')
+        var data = {}
+        $.each($('form').serializeArray(), function () {
+          data[this.name] = this.value
+        })
+        $('#selectStatus').html('正在获取域名信息...')
+        $.ajax({
+          type: 'GET',
+          url: '/api',
+          dataType: 'json',
+          data: {
+            domain: data['domain'],
+          },
+          success: function (data) {
+            data_option(data)
+          },
+          error: function (data) {
+            console.log('Error', data)
+            $('#selectStatus').html('请求发送失败，请稍后重试')
+            $('#info_block').html(
+              "<h3 style='color: red;'>" + '请求发送失败，请稍后重试' + '</h3>'
+            )
+          },
+        })
+      })
+    </script>
+  </body>
 </html>
